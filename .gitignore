@@ -1,0 +1,5 @@
+*.ovpn
+up.sh
+localtonet
+__pycache__/
+try/
