@@ -1,7 +1,7 @@
 import asyncio
 import logging
+
 from cipher import *
-import re
 
 
 async def buildSpec(r: asyncio.StreamReader) -> list[Cipher]:
@@ -54,9 +54,10 @@ async def handle(r: asyncio.StreamReader, w: asyncio.StreamWriter):
             decData = decData.decode('ascii')
             #logging.debug(f'<-- {decData}')
 
-            toys = re.findall(r'(\d*)x ([\w\- ]*)', decData)
-            num, toy = max(toys, key=lambda x: int(x[0]))
-            decData = f'{num}x {toy}\n'.encode('ascii')
+            #toys = re.findall(r'(\d*)x ([\w\- ]*)', decData)
+            toys=decData.strip().split(',')
+            toy = max(toys, key=lambda x: int(x.split('x')[0]))
+            decData = f'{toy}\n'.encode('ascii')
 
             assert decData != (encData := enc(decData))
             w.write(encData)
@@ -72,7 +73,7 @@ async def handle(r: asyncio.StreamReader, w: asyncio.StreamWriter):
 
 async def main():
     logging.basicConfig(level=logging.DEBUG)
-    server = await asyncio.start_server(handle, "0.0.0.0", 5001)
+    server = await asyncio.start_server(handle, "0.0.0.0", 5000)
     logging.debug("Server ready")
     async with server:
         await server.serve_forever()
