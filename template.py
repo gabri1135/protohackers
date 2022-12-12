@@ -12,7 +12,7 @@ async def handle(r: asyncio.StreamReader, w: asyncio.StreamWriter):
 
 async def main():
     logging.basicConfig(level=logging.DEBUG)
-    server = await asyncio.start_server(handle, "0.0.0.0", 5001)
+    server = await asyncio.start_server(handle, "0.0.0.0", 5000)
     logging.debug("Server ready")
     async with server:
         await server.serve_forever()
