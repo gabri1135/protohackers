@@ -1,8 +1,8 @@
 import asyncio
 import logging
 
-from dirFile import Directory
-from parseRequests import *
+from voracious_code_storage.dirFile import Directory
+from voracious_code_storage.parseRequests import *
 
 
 async def handle(r: asyncio.StreamReader, w: asyncio.StreamWriter):
@@ -80,5 +80,3 @@ async def main():
     async with server:
         await server.serve_forever()
 
-if __name__ == '__main__':
-    asyncio.run(main())
