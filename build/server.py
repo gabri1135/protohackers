@@ -1,8 +1,8 @@
 import asyncio
 import logging
 
-from voracious_code_storage.dirFile import Directory
-from voracious_code_storage.parseRequests import *
+from build.dirFile import Directory
+from build.parseRequests import *
 
 
 async def handle(r: asyncio.StreamReader, w: asyncio.StreamWriter):

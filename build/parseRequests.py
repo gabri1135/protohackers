@@ -1,4 +1,4 @@
-from voracious_code_storage.badRequest import BadRequest
+from build.badRequest import BadRequest
 from re import fullmatch
 
 

@@ -1,6 +1,6 @@
 from collections import defaultdict
 
-from voracious_code_storage.badRequest import BadRequest
+from build.badRequest import BadRequest
 
 
 class Directory:
