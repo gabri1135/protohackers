@@ -24,21 +24,20 @@ async def handle(r: asyncio.StreamReader, w: asyncio.StreamWriter):
             await write('READY')
             data = await read()
             method, *_ = data.split(' ')
-            logging.debug(f'\n--> {data}')
 
             if method.upper() == 'PUT':
                 path, length = parsePut(data)
                 text = await readExactly(length)
                 version = dir.put(path, text)
                 await write(f'OK {version}')
-                logging.debug(f'<--OK {version}')
+                logging.debug(f'--> {data} {version}')
 
             elif method.upper() == 'GET':
                 path, version = parseGet(data)
                 text, length = dir.get(path, version)
                 await write(f'OK {length}')
                 await write(text, end=False)
-                logging.debug(f'<--OK {length}')
+                logging.debug(f'--> {data}  {length}')
 
             elif method.upper() == 'LIST':
                 path = parseList(data)
@@ -47,7 +46,7 @@ async def handle(r: asyncio.StreamReader, w: asyncio.StreamWriter):
                 print(lista)
                 await write(f'OK {len(lista)}')
                 await write('\n'.join(lista))
-                logging.debug(f'<--OK {len(lista)}')
+                logging.debug(f'--> {data} {len(lista)}')
 
             elif method.upper() == 'HELP':
                 await write('OK usage: HELP|GET|PUT|LIST')

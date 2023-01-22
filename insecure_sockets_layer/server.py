@@ -44,14 +44,14 @@ async def handle(r: asyncio.StreamReader, w: asyncio.StreamWriter):
 
         while not r.at_eof():
             encData = b''
-            decData = b''
+            bDecData = b''
             while True:
                 encData += await r.readexactly(1)
-                decData += dec(encData[-1])
-                if decData.endswith(b'\n'):
+                bDecData += dec(encData[-1])
+                if bDecData.endswith(b'\n'):
                     break
-            assert decData != encData
-            decData = decData.decode('ascii')
+            assert bDecData != encData
+            decData = bDecData.decode('ascii')
             #logging.debug(f'<-- {decData}')
 
             #toys = re.findall(r'(\d*)x ([\w\- ]*)', decData)
