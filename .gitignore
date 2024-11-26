@@ -1,5 +1,6 @@
-*.ovpn
-up.sh
-localtonet
+.vscode/
+
+.venv/
 __pycache__/
-try/
+
+template.py

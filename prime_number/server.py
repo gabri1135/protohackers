@@ -1,35 +1,35 @@
 import asyncio
-import logging
 import json
+import logging
 import math
 
 
-def isPrime(n: int|float) -> bool:
-    if n < 2 or type(n)==float:
+def isPrime(n: int | float) -> bool:
+    if n < 2 or type(n) == float:
         return False
 
     i = 2
     while i <= math.sqrt(n):
         if n % i == 0:
             return False
-        i += 1+i % 2
+        i += 1 + i % 2
     return True
 
 
 async def handle(r: asyncio.StreamReader, w: asyncio.StreamWriter):
     def write_json(d):
-        w.write(json.dumps(d).encode("utf8"))
-        w.write(b'\n')
+        w.write(json.dumps(d).encode())
+        w.write(b"\n")
         logging.debug(f"--> {d}")
 
     while not r.at_eof():
         try:
-            data = json.loads((await r.readuntil(b'\n')).decode("utf8"))
+            data = json.loads((await r.readuntil(b"\n")).decode())
             logging.debug(f"<-- {data}")
             method = data["method"]
             number = data["number"]
 
-            if method != "isPrime" or not type(number) in (int,float):
+            if method != "isPrime" or not type(number) in (int, float):
                 write_json({"error": "invalid_json"})
                 break
 
@@ -51,5 +51,6 @@ async def main():
     async with server:
         await server.serve_forever()
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     asyncio.run(main())

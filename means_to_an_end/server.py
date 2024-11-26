@@ -17,12 +17,12 @@ class HistoricalPrice:
             if minTime <= x <= maxTime:
                 tot += self.data[x]
                 rec += 1
-        return tot//rec if rec != 0 else 0
+        return tot // rec if rec != 0 else 0
 
 
 async def handle(r: asyncio.StreamReader, w: asyncio.StreamWriter):
     def write(d: int):
-        w.write(struct.pack("!i",d))
+        w.write(struct.pack("!i", d))
         logging.debug(f"--> {d}")
 
     historicalPrice = HistoricalPrice()
@@ -32,14 +32,14 @@ async def handle(r: asyncio.StreamReader, w: asyncio.StreamWriter):
             method, a, b = struct.unpack("!cii", await r.readexactly(9))
             logging.debug(f"<-- {method} {a} {b}")
 
-            if method==b'I':
-                historicalPrice.insert(a,b)
-            elif method==b'Q':
-                write(historicalPrice.avg(a,b))
+            if method == b"I":
+                historicalPrice.insert(a, b)
+            elif method == b"Q":
+                write(historicalPrice.avg(a, b))
             else:
                 raise ValueError()
 
-        except (asyncio.IncompleteReadError,ValueError):
+        except (asyncio.IncompleteReadError, ValueError):
             write(-1)
             break
     await w.drain()
@@ -53,5 +53,6 @@ async def main():
     async with server:
         await server.serve_forever()
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     asyncio.run(main())

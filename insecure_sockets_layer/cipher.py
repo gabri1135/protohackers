@@ -36,14 +36,12 @@ class XorPos(Cipher):
         self.decPos = 0
 
     def encode(self, plaintext: bytes) -> bytes:
-        ciphertext = [(b ^ pos) % 256 for pos,
-                      b in enumerate(plaintext, self.encPos)]
+        ciphertext = [(b ^ pos) % 256 for pos, b in enumerate(plaintext, self.encPos)]
         self.encPos += len(plaintext)
         return bytes(ciphertext)
 
     def decode(self, ciphertext: bytes) -> bytes:
-        plaintext = [(b ^ pos) % 256 for pos,
-                     b in enumerate(ciphertext, self.decPos)]
+        plaintext = [(b ^ pos) % 256 for pos, b in enumerate(ciphertext, self.decPos)]
         self.decPos += len(ciphertext)
         return bytes(plaintext)
 
@@ -53,10 +51,10 @@ class Add(Cipher):
         self.N = N % 256
 
     def encode(self, plaintext: bytes) -> bytes:
-        return bytes([(b+self.N) % 256 for b in plaintext])
+        return bytes([(b + self.N) % 256 for b in plaintext])
 
     def decode(self, ciphertext: bytes) -> bytes:
-        return bytes([(b-self.N) % 256 for b in ciphertext])
+        return bytes([(b - self.N) % 256 for b in ciphertext])
 
 
 class AddPos(Cipher):
@@ -65,13 +63,11 @@ class AddPos(Cipher):
         self.decPos = 0
 
     def encode(self, plaintext: bytes) -> bytes:
-        ciphertext = [(b + pos) % 256 for pos,
-                      b in enumerate(plaintext, self.encPos)]
+        ciphertext = [(b + pos) % 256 for pos, b in enumerate(plaintext, self.encPos)]
         self.encPos += len(plaintext)
         return bytes(ciphertext)
 
     def decode(self, ciphertext: bytes) -> bytes:
-        plaintext = [(b - pos) % 256 for pos,
-                     b in enumerate(ciphertext, self.decPos)]
+        plaintext = [(b - pos) % 256 for pos, b in enumerate(ciphertext, self.decPos)]
         self.decPos += len(ciphertext)
         return bytes(plaintext)
